@@ -5,6 +5,10 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     private Rigidbody targetRb;
+    private GameManager gameManager;
+    public ParticleSystem explosionParticle;
+
+    public int pointValue;
 
     public float minSpeed = 12;
     public float maxSpeed = 16;
@@ -15,6 +19,7 @@ public class Target : MonoBehaviour
     private void Start()
     {
         targetRb = GetComponent<Rigidbody>();
+        gameManager = FindObjectOfType<GameManager>();
 
         targetRb.AddForce(RandomForce(), ForceMode.Impulse);
         targetRb.AddTorque(RandomTorque(), RandomTorque(), RandomTorque(), ForceMode.Impulse);
@@ -38,6 +43,8 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
+        gameManager.UpdateScore(pointValue);
+        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
         Destroy(gameObject);
     }
 
