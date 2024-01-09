@@ -8,6 +8,7 @@ public class Target : MonoBehaviour
     private GameManager gameManager;
     public ParticleSystem explosionParticle;
 
+
     public int pointValue;
 
     public float minSpeed = 12;

@@ -6,25 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public bool isGameActive;
+    public bool isGameActive = false;
     public List<GameObject> targets;
     public TextMeshProUGUI scoreText;
     public GameObject gameOverScreen;
+    public GameObject startScreen;
     public int score = 0;
 
     private float spawnRate = 2f;
 
-    private void Start()
+    public void StartGame(int difficulty)
     {
-        StartCoroutine(SpawnTarget());
-        UpdateScore(0);
+        spawnRate /= difficulty;
         isGameActive = true;
-    }
+        score = 0;
+        UpdateScore(0);
+        StartCoroutine(SpawnTarget());
+        startScreen.SetActive(false);
 
-    public void UpdateScore(int scoretoAdd)
-    {
-        score += scoretoAdd;
-        scoreText.SetText("Score: " + score.ToString());
     }
 
     IEnumerator SpawnTarget()
@@ -35,6 +34,12 @@ public class GameManager : MonoBehaviour
             int randomIndex = Random.Range(0, 4); 
             Instantiate(targets[randomIndex], Vector3.zero, Quaternion.identity);
         }
+    }
+
+    public void UpdateScore(int scoretoAdd)
+    {
+        score += scoretoAdd;
+        scoreText.SetText("Score: " + score.ToString());
     }
 
     public void GameOver()
